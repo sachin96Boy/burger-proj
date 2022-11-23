@@ -5,7 +5,7 @@ function Layout(props) {
   return (
     <Auxilary>
       <div>Layout</div>
-      <main>{props.children}</main>
+      <main className="mt-4">{props.children}</main>
     </Auxilary>
   );
 }
