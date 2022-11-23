@@ -1,7 +1,12 @@
+import Layout from "./components/Layout/Layout";
+import BurgerBuilder from "./containers/BurgerBuilder/BurgerBuilder";
+
 function App() {
   return (
     <div>
-      <h1 className="text-3xl font-bold font-poppins text-gray-600">Hello world!</h1>
+      <Layout>
+        <BurgerBuilder />
+      </Layout>
     </div>
   );
 }
