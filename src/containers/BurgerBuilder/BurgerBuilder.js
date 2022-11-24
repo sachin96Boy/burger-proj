@@ -1,6 +1,8 @@
 import React from "react";
 import BuildControls from "../../components/Layout/Burger/BuildControls/BuildControls";
 import Burger from "../../components/Layout/Burger/Burger";
+import OrderSummery from "../../components/Layout/Burger/orderSumery/OrderSummery";
+import Modal from "../../components/UI/Modal/Modal";
 
 import Auxilary from "../../hoc/Auxilary";
 
@@ -68,7 +70,7 @@ function BurgerBuilder() {
         return sum + el;
       }, 0);
     setPurchasable(sum > 0);
-  }
+  };
 
   const disabledInfo = {
     ...ingredients,
@@ -81,6 +83,9 @@ function BurgerBuilder() {
 
   return (
     <Auxilary>
+      <Modal>
+        <OrderSummery ingredients={ingredients} />
+      </Modal>
       <Burger ingredients={ingredients} />
       <BuildControls
         ingredientAdded={addIngredientHandler}
