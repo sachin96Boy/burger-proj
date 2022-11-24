@@ -9,7 +9,10 @@ function BuildControls(props) {
     { label: "Meat", type: "meat" },
   ];
   return (
-    <div className="w-full bg-orange-600 flex flex-grow flex-col items-center shadow-md m-auto px-3">
+    <div className="w-full bg-orange-600 py-10 flex flex-grow flex-col items-center shadow-md m-auto px-3">
+      <p>
+        current prics : Rs. <strong>{props.price.toFixed(2)}</strong>
+      </p>
       {controls.map((ctrl) => (
         <BuildControlller
           key={ctrl.label}
@@ -19,6 +22,9 @@ function BuildControls(props) {
           disabled={props.disabled[ctrl.type]}
         />
       ))}
+      <button disabled={!props.purchasable} className="bg-gray-700 text-white disabled:bg-red-900">
+        Order your burger now
+      </button>
     </div>
   );
 }

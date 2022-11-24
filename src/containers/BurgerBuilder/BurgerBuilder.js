@@ -20,8 +20,7 @@ function BurgerBuilder() {
     meat: 0,
   });
   const [totalPrice, setTotalPrice] = React.useState(4);
-  // console for now to see if it works
-  // console.log(setIngredients);
+  const [purchasable, setPurchasable] = React.useState(false);
 
   const addIngredientHandler = (type) => {
     const oldCount = ingredients[type];
@@ -39,6 +38,7 @@ function BurgerBuilder() {
     const oldPrice = totalPrice;
     const newPrice = oldPrice + priceAddition;
     setTotalPrice(newPrice);
+    updatePurchaseState(updatedIngredients);
   };
 
   const removeIngredientHandler = (type) => {
@@ -56,7 +56,19 @@ function BurgerBuilder() {
     const oldPrice = totalPrice;
     const newPrice = oldPrice - priceDeduction;
     setTotalPrice(newPrice);
+    updatePurchaseState(updatedIngredients);
   };
+
+  const updatePurchaseState = (ingredients) => {
+    const sum = Object.keys(ingredients)
+      .map((igKey) => {
+        return ingredients[igKey];
+      })
+      .reduce((sum, el) => {
+        return sum + el;
+      }, 0);
+    setPurchasable(sum > 0);
+  }
 
   const disabledInfo = {
     ...ingredients,
@@ -74,6 +86,8 @@ function BurgerBuilder() {
         ingredientAdded={addIngredientHandler}
         ingredientRemoved={removeIngredientHandler}
         disabled={disabledInfo}
+        purchasable={purchasable}
+        price={totalPrice}
       />
     </Auxilary>
   );
