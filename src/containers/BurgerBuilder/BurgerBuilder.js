@@ -23,6 +23,7 @@ function BurgerBuilder() {
   });
   const [totalPrice, setTotalPrice] = React.useState(4);
   const [purchasable, setPurchasable] = React.useState(false);
+  const [purchaseMode, setPurchaseMode] = React.useState(false);
 
   const addIngredientHandler = (type) => {
     const oldCount = ingredients[type];
@@ -72,6 +73,14 @@ function BurgerBuilder() {
     setPurchasable(sum > 0);
   };
 
+  const purchaseHandler = () => {
+    setPurchaseMode(true);
+  };
+
+  const purchasedCancelHandler = () => {
+    setPurchaseMode(false);
+  };
+
   const disabledInfo = {
     ...ingredients,
   };
@@ -83,7 +92,7 @@ function BurgerBuilder() {
 
   return (
     <Auxilary>
-      <Modal>
+      <Modal show={purchaseMode} modalClosed={purchasedCancelHandler}>
         <OrderSummery ingredients={ingredients} />
       </Modal>
       <Burger ingredients={ingredients} />
@@ -93,6 +102,7 @@ function BurgerBuilder() {
         disabled={disabledInfo}
         purchasable={purchasable}
         price={totalPrice}
+        ordered={purchaseHandler}
       />
     </Auxilary>
   );

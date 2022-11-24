@@ -22,7 +22,7 @@ function BuildControls(props) {
           disabled={props.disabled[ctrl.type]}
         />
       ))}
-      <button disabled={!props.purchasable} className="bg-gray-700 text-white disabled:bg-red-900">
+      <button onClick={props.ordered} disabled={!props.purchasable} className="bg-gray-700 text-white disabled:bg-red-900">
         Order your burger now
       </button>
     </div>
