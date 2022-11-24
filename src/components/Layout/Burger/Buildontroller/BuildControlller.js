@@ -7,7 +7,7 @@ function BuildControlller(props) {
       <button className="disabled:bg-orange-300 disabled:text-white disabled:cursor-not-allowed block p-1 mx-1 w-20 border outline-none cursor-pointer border-orange-500">
         Less
       </button>
-      <button className="disabled:bg-orange-300 disabled:text-white disabled:cursor-not-allowed block p-1 mx-1 w-20 border outline-none cursor-pointer border-orange-500">
+      <button onClick={props.added} className="disabled:bg-orange-300 disabled:text-white disabled:cursor-not-allowed block p-1 mx-1 w-20 border outline-none cursor-pointer border-orange-500">
         More
       </button>
     </div>
