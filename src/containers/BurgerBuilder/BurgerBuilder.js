@@ -1,4 +1,5 @@
 import React from "react";
+import BuildControls from "../../components/Layout/Burger/BuildControls/BuildControls";
 import Burger from "../../components/Layout/Burger/Burger";
 
 import Auxilary from "../../hoc/Auxilary";
@@ -13,7 +14,7 @@ function BurgerBuilder() {
   return (
     <Auxilary>
       <Burger ingredients={ingredients}/>
-      <div>build control</div>
+      <BuildControls />
     </Auxilary>
   );
 }
