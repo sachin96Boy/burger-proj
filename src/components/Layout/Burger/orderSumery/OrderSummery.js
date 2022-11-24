@@ -1,11 +1,13 @@
 import React from "react";
 import Auxilary from "../../../../hoc/Auxilary";
 import Button from "../../../UI/Button/Button";
+import { BsDot } from "react-icons/bs";
 
 function OrderSummery(props) {
   const ingredientSummery = Object.keys(props.ingredients).map((igKey) => {
     return (
-      <li className="font-bold" key={igKey}>
+      <li className="font-bold flex items-center" key={igKey} >
+        <BsDot size={'20'}/>
         <span style={{ textTransform: "capitalize" }}>{igKey}</span>:
         {props.ingredients[igKey]}
       </li>
