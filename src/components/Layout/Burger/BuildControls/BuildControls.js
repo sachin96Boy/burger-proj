@@ -11,7 +11,12 @@ function BuildControls(props) {
   return (
     <div className="w-full bg-orange-600 flex flex-grow flex-col items-center shadow-md m-auto px-3">
       {controls.map((ctrl) => (
-        <BuildControlller key={ctrl.label} label={ctrl.label} added={()=>props.ingredientAdded(ctrl.type)} />
+        <BuildControlller
+          key={ctrl.label}
+          label={ctrl.label}
+          added={() => props.ingredientAdded(ctrl.type)}
+          removed={() => props.ingredientRemoved(ctrl.type)}
+        />
       ))}
     </div>
   );

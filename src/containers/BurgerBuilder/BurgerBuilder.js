@@ -41,11 +41,30 @@ function BurgerBuilder() {
     setTotalPrice(newPrice); 
   };
 
+  const removeIngredientHandler = (type) => {
+    const oldCount = ingredients[type];
+    if (oldCount <= 0) {
+      return;
+    }
+    const updatedCount = oldCount - 1;
+    const updatedIngredients = {
+      ...ingredients,
+    };
+    updatedIngredients[type] = updatedCount;
+    setIngredients(updatedIngredients);
+    const priceDeduction = INGREDIENT_PRICES[type];
+    const oldPrice = totalPrice;
+    const newPrice = oldPrice - priceDeduction;
+    setTotalPrice(newPrice);
+  }
+
   return (
     <Auxilary>
       <Burger ingredients={ingredients} />
       <BuildControls 
-        ingredientAdded={addIngredientHandler} />
+        ingredientAdded={addIngredientHandler}
+        ingredientRemoved={removeIngredientHandler}
+        />
     </Auxilary>
   );
 }
