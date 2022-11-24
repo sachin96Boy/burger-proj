@@ -38,7 +38,7 @@ function BurgerBuilder() {
     const priceAddition = INGREDIENT_PRICES[type];
     const oldPrice = totalPrice;
     const newPrice = oldPrice + priceAddition;
-    setTotalPrice(newPrice); 
+    setTotalPrice(newPrice);
   };
 
   const removeIngredientHandler = (type) => {
@@ -56,15 +56,25 @@ function BurgerBuilder() {
     const oldPrice = totalPrice;
     const newPrice = oldPrice - priceDeduction;
     setTotalPrice(newPrice);
+  };
+
+  const disabledInfo = {
+    ...ingredients,
+  };
+  for (let key in disabledInfo) {
+    disabledInfo[key] =
+      disabledInfo[key] <=
+      0; /* This gives an boolean condition either true or false */
   }
 
   return (
     <Auxilary>
       <Burger ingredients={ingredients} />
-      <BuildControls 
+      <BuildControls
         ingredientAdded={addIngredientHandler}
         ingredientRemoved={removeIngredientHandler}
-        />
+        disabled={disabledInfo}
+      />
     </Auxilary>
   );
 }
