@@ -11,7 +11,7 @@ function BuildControls(props) {
   return (
     <div className="w-full bg-orange-600 py-10 flex flex-grow flex-col items-center shadow-md m-auto px-3">
       <p>
-        current prics : Rs. <strong>{props.price.toFixed(2)}</strong>
+        current price : Rs. <strong>{props.price.toFixed(2)}</strong>
       </p>
       {controls.map((ctrl) => (
         <BuildControlller

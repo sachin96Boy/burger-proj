@@ -81,6 +81,10 @@ function BurgerBuilder() {
     setPurchaseMode(false);
   };
 
+  const purchaseContinueHandler = () => {
+    alert("You continue!");
+  };
+
   const disabledInfo = {
     ...ingredients,
   };
@@ -93,7 +97,12 @@ function BurgerBuilder() {
   return (
     <Auxilary>
       <Modal show={purchaseMode} modalClosed={purchasedCancelHandler}>
-        <OrderSummery ingredients={ingredients} />
+        <OrderSummery
+          ingredients={ingredients}
+          purchaseContinued={purchaseContinueHandler}
+          purchaseCanceled={purchasedCancelHandler}
+          price={totalPrice}
+        />
       </Modal>
       <Burger ingredients={ingredients} />
       <BuildControls
