@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Auxilary from "../../../hoc/Auxilary";
 import Bakdrop from "../Backdrop/Bakdrop";
 
 function Modal(props) {
+  useEffect(() => {
+    console.log("[Modal.js] useEffect");
+    return () => {
+      console.log("[Modal.js] cleanup work in useEffect");
+    };
+  }, [props.show]);
   return (
     <Auxilary>
       <Bakdrop show={props.show} clicked={props.modalClosed} />
@@ -19,4 +25,4 @@ function Modal(props) {
   );
 }
 
-export default Modal;
+export default React.memo(Modal);
