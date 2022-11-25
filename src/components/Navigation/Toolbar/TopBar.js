@@ -6,10 +6,14 @@ function TopBar() {
   return (
     <header className="h-14 w-full fixed top-0 left-0 bg-orange-800 flex justify-between items-center px-5 box-border z-30">
       <div>MENU</div>
-      <Logo />
-      <nav className="h-full">
-        <NavigationItems />
-      </nav>
+      <div className="h-4/5">
+        <Logo />
+      </div>
+      <div className="hidden lg:flex">
+        <nav className="h-full">
+          <NavigationItems />
+        </nav>
+      </div>
     </header>
   );
 }
