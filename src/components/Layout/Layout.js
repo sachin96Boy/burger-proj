@@ -4,13 +4,13 @@ import SideDrawer from "../Navigation/NavigationItems/SideDrawer/SideDrawer";
 import TopBar from "../Navigation/Toolbar/TopBar";
 
 function Layout(props) {
-  const [showSideDrawer, setShowSideDrawer] = React.useState(true);
+  const [showSideDrawer, setShowSideDrawer] = React.useState(false);
   const sideDrawerCloseHandler = () => {
-    setShowSideDrawer(false);
+    setShowSideDrawer(!showSideDrawer);
   }
   return (
     <Auxilary>
-      <TopBar />
+      <TopBar sideDrawerHandler={sideDrawerCloseHandler} />
       <SideDrawer open={showSideDrawer} closed={sideDrawerCloseHandler}/>
       <main className="mt-20">{props.children}</main>
     </Auxilary>
