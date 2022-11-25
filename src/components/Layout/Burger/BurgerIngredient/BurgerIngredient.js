@@ -12,11 +12,11 @@ function BurgerIngredient(props) {
       break;
     case "bread-top":
       ingredient = (
-        <div className="w-4/5 h-1/5 bg-gradient-to-r from-orange-900 to-orange-700 rounded-t-full shadow-inner shadow-orange-800 my-2 mx-auto">
-          <div className="w-20 h-3 shadow-inner absolute left-1/3 right-2/3 top-16 skew-y-12 shadow-slate-400 bg-white  rounded-lg"></div>
-          <div className="w-20 h-3 shadow-inner absolute top-16 left-72  -skew-y-6 shadow-slate-400 bg-white  rounded-lg"></div>
-          <div className="w-20 h-3 shadow-inner absolute right-1/3 left-2/3 top-16 skew-y-12 shadow-slate-400 bg-white  rounded-lg"></div>
-          <div className="w-20 h-3 shadow-inner absolute top-16 right-72  -skew-y-6 shadow-slate-400 bg-white  rounded-lg"></div>
+        <div className="w-4/5 h-1/5 bg-gradient-to-r from-orange-900 to-orange-700 rounded-t-full shadow-inner shadow-orange-800 my-2 mx-auto flex justify-between items-center px-5">
+          <div className="w-20 h-3 shadow-inner left-1/3 right-2/3 top-16 skew-y-12 shadow-slate-400 bg-white  rounded-lg"></div>
+          <div className="w-20 h-3 shadow-inner  top-16 left-72  -skew-y-6 shadow-slate-400 bg-white  rounded-lg"></div>
+          <div className="w-20 h-3 shadow-inner  right-1/3 left-2/3 top-16 skew-y-12 shadow-slate-400 bg-white  rounded-lg"></div>
+          <div className="w-20 h-3 shadow-inner  top-16 right-72  -skew-y-6 shadow-slate-400 bg-white  rounded-lg"></div>
         </div>
       );
       break;
@@ -48,6 +48,6 @@ function BurgerIngredient(props) {
 
 BurgerIngredient.propTypes = {
   type: PropTypes.string.isRequired,
-}
+};
 
 export default BurgerIngredient;
