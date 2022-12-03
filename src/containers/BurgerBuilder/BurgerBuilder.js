@@ -90,7 +90,7 @@ function BurgerBuilder() {
     setLoading(true);
     instance
       .post(
-        "/orders",
+        "/orders.json",
         {
           ingredients: ingredients,
           price: totalPrice,
