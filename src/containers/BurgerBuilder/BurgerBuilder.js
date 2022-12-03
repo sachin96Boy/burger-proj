@@ -88,34 +88,37 @@ function BurgerBuilder() {
   const purchaseContinueHandler = () => {
     // alert("You continue!");
     setLoading(true);
-    instance.post(
-      "/orders.json",
-      {
-        ingredients: ingredients,
-        price: totalPrice,
-        customer: {
-          name: "Max Schwarzmuller",
-          address: {
-            street: "Teststreet 1",
-            zipCode: "41351",
-            country: "Germany",
+    instance
+      .post(
+        "/orders",
+        {
+          ingredients: ingredients,
+          price: totalPrice,
+          customer: {
+            name: "Max Schwarzmuller",
+            address: {
+              street: "Teststreet 1",
+              zipCode: "41351",
+              country: "Germany",
+            },
           },
         },
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    ).then((response) => {
-      setLoading(false);
-      setPurchaseMode(false);
-      console.log(response);
-    }).catch((error) => {
-      setLoading(false);
-      setPurchaseMode(false);
-      console.log(error);
-    });
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((response) => {
+        setLoading(false);
+        setPurchaseMode(false);
+        console.log(response);
+      })
+      .catch((error) => {
+        setLoading(false);
+        setPurchaseMode(false);
+        console.log(error);
+      });
   };
 
   const disabledInfo = {
@@ -127,16 +130,17 @@ function BurgerBuilder() {
       0; /* This gives an boolean condition either true or false */
   }
 
-  let orderSummery = <OrderSummery
-  ingredients={ingredients}
-  purchaseContinued={purchaseContinueHandler}
-  purchaseCanceled={purchasedCancelHandler}
-  price={totalPrice}
-/>;
+  let orderSummery = (
+    <OrderSummery
+      ingredients={ingredients}
+      purchaseContinued={purchaseContinueHandler}
+      purchaseCanceled={purchasedCancelHandler}
+      price={totalPrice}
+    />
+  );
   if (loading) {
     orderSummery = <Spinner />;
   }
-
 
   return (
     <Auxilary>
