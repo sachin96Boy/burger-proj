@@ -1,10 +1,13 @@
 import React from "react";
+import instance from "../../axios-orders";
 import BuildControls from "../../components/Layout/Burger/BuildControls/BuildControls";
 import Burger from "../../components/Layout/Burger/Burger";
 import OrderSummery from "../../components/Layout/Burger/orderSumery/OrderSummery";
 import Modal from "../../components/UI/Modal/Modal";
+import Spinner from "../../components/UI/spinner/Spinner";
 
 import Auxilary from "../../hoc/Auxilary";
+import WithErrorHandler from "../../hoc/withErrorHandler/WithErrorHandler";
 
 // global variables
 const INGREDIENT_PRICES = {
@@ -24,6 +27,7 @@ function BurgerBuilder() {
   const [totalPrice, setTotalPrice] = React.useState(4);
   const [purchasable, setPurchasable] = React.useState(false);
   const [purchaseMode, setPurchaseMode] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
 
   const addIngredientHandler = (type) => {
     const oldCount = ingredients[type];
@@ -82,7 +86,36 @@ function BurgerBuilder() {
   };
 
   const purchaseContinueHandler = () => {
-    alert("You continue!");
+    // alert("You continue!");
+    setLoading(true);
+    instance.post(
+      "/orders.json",
+      {
+        ingredients: ingredients,
+        price: totalPrice,
+        customer: {
+          name: "Max Schwarzmuller",
+          address: {
+            street: "Teststreet 1",
+            zipCode: "41351",
+            country: "Germany",
+          },
+        },
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    ).then((response) => {
+      setLoading(false);
+      setPurchaseMode(false);
+      console.log(response);
+    }).catch((error) => {
+      setLoading(false);
+      setPurchaseMode(false);
+      console.log(error);
+    });
   };
 
   const disabledInfo = {
@@ -94,15 +127,21 @@ function BurgerBuilder() {
       0; /* This gives an boolean condition either true or false */
   }
 
+  let orderSummery = <OrderSummery
+  ingredients={ingredients}
+  purchaseContinued={purchaseContinueHandler}
+  purchaseCanceled={purchasedCancelHandler}
+  price={totalPrice}
+/>;
+  if (loading) {
+    orderSummery = <Spinner />;
+  }
+
+
   return (
     <Auxilary>
       <Modal show={purchaseMode} modalClosed={purchasedCancelHandler}>
-        <OrderSummery
-          ingredients={ingredients}
-          purchaseContinued={purchaseContinueHandler}
-          purchaseCanceled={purchasedCancelHandler}
-          price={totalPrice}
-        />
+        {orderSummery}
       </Modal>
       <Burger ingredients={ingredients} />
       <BuildControls
@@ -117,4 +156,4 @@ function BurgerBuilder() {
   );
 }
 
-export default BurgerBuilder;
+export default WithErrorHandler(BurgerBuilder, instance);
