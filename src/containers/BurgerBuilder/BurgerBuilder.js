@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import instance from "../../axios-orders";
 import BuildControls from "../../components/Layout/Burger/BuildControls/BuildControls";
 import Burger from "../../components/Layout/Burger/Burger";
@@ -28,6 +29,7 @@ function BurgerBuilder() {
   const [purchasable, setPurchasable] = React.useState(false);
   const [purchaseMode, setPurchaseMode] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
+  const navigate = useNavigate();
 
   const addIngredientHandler = (type) => {
     const oldCount = ingredients[type];
@@ -87,38 +89,39 @@ function BurgerBuilder() {
 
   const purchaseContinueHandler = () => {
     // alert("You continue!");
-    setLoading(true);
-    instance
-      .post(
-        "/orders.json",
-        {
-          ingredients: ingredients,
-          price: totalPrice,
-          customer: {
-            name: "Max Schwarzmuller",
-            address: {
-              street: "Teststreet 1",
-              zipCode: "41351",
-              country: "Germany",
-            },
-          },
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then((response) => {
-        setLoading(false);
-        setPurchaseMode(false);
-        console.log(response);
-      })
-      .catch((error) => {
-        setLoading(false);
-        setPurchaseMode(false);
-        console.log(error);
-      });
+    // setLoading(true);
+    // instance
+    //   .post(
+    //     "/orders.json",
+    //     {
+    //       ingredients: ingredients,
+    //       price: totalPrice,
+    //       customer: {
+    //         name: "Max Schwarzmuller",
+    //         address: {
+    //           street: "Teststreet 1",
+    //           zipCode: "41351",
+    //           country: "Germany",
+    //         },
+    //       },
+    //     },
+    //     {
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //     }
+    //   )
+    //   .then((response) => {
+    //     setLoading(false);
+    //     setPurchaseMode(false);
+    //     console.log(response);
+    //   })
+    //   .catch((error) => {
+    //     setLoading(false);
+    //     setPurchaseMode(false);
+    //     console.log(error);
+    //   });
+    navigate("/checkout");
   };
 
   const disabledInfo = {
