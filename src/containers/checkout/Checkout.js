@@ -44,7 +44,7 @@ function Checkout() {
         checkoutContinued={checkoutContinuedHandler}
         price={price}
       />
-      <Route path="/checkout/contact-data"  element={<ContactData />}/>
+      <Route path="/checkout/contact-data"  element={<ContactData ingredients={ingredients} price={price}/>}/>
     </div>
   );
 }

@@ -88,45 +88,13 @@ function BurgerBuilder() {
   };
 
   const purchaseContinueHandler = () => {
-    // alert("You continue!");
-    // setLoading(true);
-    // instance
-    //   .post(
-    //     "/orders.json",
-    //     {
-    //       ingredients: ingredients,
-    //       price: totalPrice,
-    //       customer: {
-    //         name: "Max Schwarzmuller",
-    //         address: {
-    //           street: "Teststreet 1",
-    //           zipCode: "41351",
-    //           country: "Germany",
-    //         },
-    //       },
-    //     },
-    //     {
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //     }
-    //   )
-    //   .then((response) => {
-    //     setLoading(false);
-    //     setPurchaseMode(false);
-    //     console.log(response);
-    //   })
-    //   .catch((error) => {
-    //     setLoading(false);
-    //     setPurchaseMode(false);
-    //     console.log(error);
-    //   });
     const queryParams = [];
     for (let i in ingredients) {
       queryParams.push(
         encodeURIComponent(i) + "=" + encodeURIComponent(ingredients[i])
       );
     }
+    queryParams.push("price=" + totalPrice);
     navigate({
       pathname: "/checkout",
       search: "?" + queryParams.join("&"),
