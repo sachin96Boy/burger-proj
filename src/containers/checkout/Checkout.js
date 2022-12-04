@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Route, useNavigate } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import CheckoutSummery from "../../components/order/checkoutSummery/CheckoutSummery";
 import ContactData from "./contactdata/ContactData";
 
@@ -44,7 +44,12 @@ function Checkout() {
         checkoutContinued={checkoutContinuedHandler}
         price={price}
       />
-      <Route path="/checkout/contact-data"  element={<ContactData ingredients={ingredients} price={price}/>}/>
+      <Routes>
+        <Route
+          path="/checkout/contact-data"
+          element={<ContactData ingredients={ingredients} price={price} />}
+        />
+      </Routes>
     </div>
   );
 }

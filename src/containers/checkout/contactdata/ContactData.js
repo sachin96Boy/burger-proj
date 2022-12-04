@@ -3,6 +3,7 @@ import React from "react";
 import { Navigate } from "react-router-dom";
 import Button from "../../../components/UI/Button/Button";
 import Spinner from "../../../components/UI/spinner/Spinner";
+import Input from "../../../components/UI/input/Input";
 
 function ContactData(props) {
   const [name, setName] = React.useState("");
@@ -43,32 +44,32 @@ function ContactData(props) {
 
   let form = (
     <form>
-      <input
-        className="border-2 border-gray-300 p-2 my-2 w-full"
+      <Input
+        inputtype="input"
         type="text"
         name="name"
         placeholder="Your Name"
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
-      <input
-        className="border-2 border-gray-300 p-2 my-2 w-full"
+      <Input
+        inputtype="input"
         type="email"
         name="email"
         placeholder="Your Email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
-      <input
-        className="border-2 border-gray-300 p-2 my-2 w-full"
+      <Input
+        inputtype="input"
         type="text"
         name="street"
         placeholder="Street"
         value={street}
         onChange={(e) => setStreet(e.target.value)}
       />
-      <input
-        className="border-2 border-gray-300 p-2 my-2 w-full"
+      <Input
+        inputtype="input"
         type="text"
         name="postal"
         placeholder="Postal Code"
