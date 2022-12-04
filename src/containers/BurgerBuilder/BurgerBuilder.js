@@ -121,7 +121,16 @@ function BurgerBuilder() {
     //     setPurchaseMode(false);
     //     console.log(error);
     //   });
-    navigate("/checkout");
+    const queryParams = [];
+    for (let i in ingredients) {
+      queryParams.push(
+        encodeURIComponent(i) + "=" + encodeURIComponent(ingredients[i])
+      );
+    }
+    navigate({
+      pathname: "/checkout",
+      search: "?" + queryParams.join("&"),
+    });
   };
 
   const disabledInfo = {
