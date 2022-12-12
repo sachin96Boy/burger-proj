@@ -1,6 +1,6 @@
 import instance from "../../../axios-orders";
 import React from "react";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Button from "../../../components/UI/Button/Button";
 import Spinner from "../../../components/UI/spinner/Spinner";
 import Input from "../../../components/UI/input/Input";
@@ -11,6 +11,8 @@ function ContactData(props) {
   const [street, setStreet] = React.useState("");
   const [postalCode, setPostalCode] = React.useState("");
   const [loading, setLoading] = React.useState(false);
+
+  const navigate = useNavigate();
 
   const orderHandler = (event) => {
     event.preventDefault();
@@ -34,7 +36,7 @@ function ContactData(props) {
       .then((response) => {
         console.log(response);
         setLoading(false);
-        Navigate("/");
+        navigate("/");
       })
       .catch((error) => {
         setLoading(false);
@@ -43,38 +45,54 @@ function ContactData(props) {
   };
 
   let form = (
-    <form>
+    <form onSubmit={orderHandler}>
       <Input
-        inputtype="input"
-        type="text"
-        name="name"
-        placeholder="Your Name"
+        elementType="input"
+        elementConfig={
+          {
+            type: "text",
+            name: "name",
+            placeholder: "Your Name",
+          }
+        }
         value={name}
-        onChange={(e) => setName(e.target.value)}
+        changed={(e) => setName(e.target.value)}
       />
       <Input
-        inputtype="input"
-        type="email"
-        name="email"
-        placeholder="Your Email"
+        elementType="input"
+        elementConfig={
+          {
+            type: "email",
+            name: "email",
+            placeholder: "Your Email",
+          }
+        }
         value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        changed={(e) => setEmail(e.target.value)}
       />
       <Input
-        inputtype="input"
-        type="text"
-        name="street"
-        placeholder="Street"
+        elementType="input"
+        elementConfig={
+          {
+            type: "text",
+            name: "street",
+            placeholder: "Street",
+          }
+        }
         value={street}
-        onChange={(e) => setStreet(e.target.value)}
+        changed={(e) => setStreet(e.target.value)}
       />
       <Input
-        inputtype="input"
-        type="text"
-        name="postal"
-        placeholder="Postal Code"
+        elementType="input"
+        elementConfig={
+          {
+            type: "text",
+            name: "postal",
+            placeholder: "Postal Code",
+          }
+        }
         value={postalCode}
-        onChange={(e) => setPostalCode(e.target.value)}
+        changed={(e) => setPostalCode(e.target.value)}
       />
       <Button buttonVarient={"success"} clicked={orderHandler}>
         ORDER
