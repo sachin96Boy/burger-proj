@@ -46,7 +46,7 @@ function Checkout() {
       />
       <Routes>
         <Route
-          path="/checkout/contact-data"
+          path="contact-data"
           element={<ContactData ingredients={ingredients} price={price} />}
         />
       </Routes>

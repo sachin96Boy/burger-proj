@@ -9,7 +9,7 @@ function App() {
     <div>
       <Layout>
         <Routes>
-          <Route path="/checkout" element={<Checkout />} />
+          <Route path="checkout/*" element={<Checkout />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/" exact element={<BurgerBuilder />} />
         </Routes>
