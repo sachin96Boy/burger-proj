@@ -9,7 +9,7 @@ function CheckoutSummery(props) {
       <div style={{ width: "100%", margin: "auto" }}>
         <Burger ingredients={props.ingredients} />
       </div>
-      <Button buttonVarient={"warning"} clicked={props.checkoutCancelled}>CANCEL</Button>
+      <Button buttonVarient={"warning"} clicked={props.checkoutCanceled}>CANCEL</Button>
       <Button buttonVarient={"success"} clicked={props.checkoutContinued}>CONTINUE</Button>
     </div>
   );
