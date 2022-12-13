@@ -39,21 +39,16 @@ function BurgerBuilder() {
   const [loading, setLoading] = React.useState(false);
   const navigate = useNavigate();
 
-
-  const selector = useSelector(
-    (state) => {
-      return {
-        ingredients: state.burger.ingredients,
-        totalPrice: state.burger.totalPrice,
-        error: state.burger.error,
-      };
-    }
-  );
+  const selector = useSelector((state) => {
+    return {
+      ingredients: state.burger.ingredients,
+      totalPrice: state.burger.totalPrice,
+      error: state.burger.error,
+    };
+  });
   console.log(selector);
 
   const dispatch = useDispatch();
-
-
 
   const addIngredientHandler = (type) => {
     // const oldCount = ingredients[type];
@@ -77,23 +72,23 @@ function BurgerBuilder() {
   };
 
   const removeIngredientHandler = (type) => {
-  //   const oldCount = ingredients[type];
-  //   if (oldCount <= 0) {
-  //     return;
-  //   }
-  //   const updatedCount = oldCount - 1;
-  //   const updatedIngredients = {
-  //     ...ingredients,
-  //   };
-  //   updatedIngredients[type] = updatedCount;
-  //   setIngredients(updatedIngredients);
-  //   const priceDeduction = INGREDIENT_PRICES[type];
-  //   const oldPrice = totalPrice;
-  //   const newPrice = oldPrice - priceDeduction;
-  //   setTotalPrice(newPrice);
-  //   updatePurchaseState(updatedIngredients);
+    //   const oldCount = ingredients[type];
+    //   if (oldCount <= 0) {
+    //     return;
+    //   }
+    //   const updatedCount = oldCount - 1;
+    //   const updatedIngredients = {
+    //     ...ingredients,
+    //   };
+    //   updatedIngredients[type] = updatedCount;
+    //   setIngredients(updatedIngredients);
+    //   const priceDeduction = INGREDIENT_PRICES[type];
+    //   const oldPrice = totalPrice;
+    //   const newPrice = oldPrice - priceDeduction;
+    //   setTotalPrice(newPrice);
+    //   updatePurchaseState(updatedIngredients);
 
-  dispatch({ type: REMOVE_INGREDIENT, payload: type });
+    dispatch({ type: REMOVE_INGREDIENT, payload: type });
   };
 
   const updatePurchaseState = (ingredients) => {
@@ -104,7 +99,7 @@ function BurgerBuilder() {
       .reduce((sum, el) => {
         return sum + el;
       }, 0);
-    return (sum > 0);
+    return sum > 0;
   };
 
   const purchaseHandler = () => {
@@ -119,7 +114,9 @@ function BurgerBuilder() {
     const queryParams = [];
     for (let i in selector.ingredients) {
       queryParams.push(
-        encodeURIComponent(i) + "=" + encodeURIComponent(selector.ingredients[i])
+        encodeURIComponent(i) +
+          "=" +
+          encodeURIComponent(selector.ingredients[i])
       );
     }
     queryParams.push("price=" + selector.totalPrice);
@@ -155,15 +152,21 @@ function BurgerBuilder() {
       <Modal show={purchaseMode} modalClosed={purchasedCancelHandler}>
         {orderSummery}
       </Modal>
-      <Burger ingredients={selector.ingredients} />
-      <BuildControls
-        ingredientAdded={addIngredientHandler}
-        ingredientRemoved={removeIngredientHandler}
-        disabled={disabledInfo}
-        purchasable={()=>updatePurchaseState(selector.ingredients)}
-        price={selector.totalPrice}
-        ordered={purchaseHandler}
-      />
+      {selector.error ? (
+        <p>Ingredients can't be loaded</p>
+      ) : (
+        <>
+          <Burger ingredients={selector.ingredients} />
+          <BuildControls
+            ingredientAdded={addIngredientHandler}
+            ingredientRemoved={removeIngredientHandler}
+            disabled={disabledInfo}
+            purchasable={() => updatePurchaseState(selector.ingredients)}
+            price={selector.totalPrice}
+            ordered={purchaseHandler}
+          />
+        </>
+      )}
     </Auxilary>
   );
 }

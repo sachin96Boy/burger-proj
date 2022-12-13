@@ -9,6 +9,7 @@ import {
 const initialState = {
     ingredients: null,
     totalPrice: 4,
+    error: false,
 }
 
 const INGREDIENT_PRICES = {
@@ -68,10 +69,13 @@ const BurgerReducer = createReducer(initialState, (builder)=> {
         .addCase(SET_INGREDIENTS, (state, action) => {
             state.ingredients = action.payload;
             state.totalPrice = 4;
+            state.error = false;
+
         })
         .addCase(FETCH_INGREDIENTS_FAILED, (state, action) => {
             state.ingredients = null;
             state.totalPrice = 4;
+            state.error = true;
         })
 })
 
