@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import instance from "../../axios-orders";
 import BuildControls from "../../components/Layout/Burger/BuildControls/BuildControls";
@@ -10,62 +11,89 @@ import Spinner from "../../components/UI/spinner/Spinner";
 import Auxilary from "../../hoc/Auxilary";
 import WithErrorHandler from "../../hoc/withErrorHandler/WithErrorHandler";
 
+import {
+  ADD_INGREDIENT,
+  REMOVE_INGREDIENT,
+  SET_INGREDIENTS,
+  FETCH_INGREDIENTS_FAILED,
+} from "../../store/constants/BurgerConstants";
+
 // global variables
-const INGREDIENT_PRICES = {
-  salad: 0.5,
-  cheese: 0.4,
-  meat: 1.3,
-  bacon: 0.7,
-};
+// const INGREDIENT_PRICES = {
+//   salad: 0.5,
+//   cheese: 0.4,
+//   meat: 1.3,
+//   bacon: 0.7,
+// };
 
 function BurgerBuilder() {
-  const [ingredients, setIngredients] = React.useState({
-    salad: 0,
-    bacon: 0,
-    cheese: 0,
-    meat: 0,
-  });
-  const [totalPrice, setTotalPrice] = React.useState(4);
-  const [purchasable, setPurchasable] = React.useState(false);
+  // const [ingredients, setIngredients] = React.useState({
+  //   salad: 0,
+  //   bacon: 0,
+  //   cheese: 0,
+  //   meat: 0,
+  // });
+  // const [totalPrice, setTotalPrice] = React.useState(4);
+  // const [purchasable, setPurchasable] = React.useState(false);
   const [purchaseMode, setPurchaseMode] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const navigate = useNavigate();
 
+
+  const selector = useSelector(
+    (state) => {
+      return {
+        ingredients: state.burger.ingredients,
+        totalPrice: state.burger.totalPrice,
+        error: state.burger.error,
+      };
+    }
+  );
+  console.log(selector);
+
+  const dispatch = useDispatch();
+
+
+
   const addIngredientHandler = (type) => {
-    const oldCount = ingredients[type];
-    const updatedCount = oldCount + 1;
+    // const oldCount = ingredients[type];
+    // const updatedCount = oldCount + 1;
     // update in an imutable way
     // first create an copy
     // the update it
     // them set it
-    const updatedIngredients = {
-      ...ingredients,
-    };
-    updatedIngredients[type] = updatedCount;
-    setIngredients(updatedIngredients);
-    const priceAddition = INGREDIENT_PRICES[type];
-    const oldPrice = totalPrice;
-    const newPrice = oldPrice + priceAddition;
-    setTotalPrice(newPrice);
-    updatePurchaseState(updatedIngredients);
+    // const updatedIngredients = {
+    //   ...ingredients,
+    // };
+    // updatedIngredients[type] = updatedCount;
+    // setIngredients(updatedIngredients);
+    // const priceAddition = INGREDIENT_PRICES[type];
+    // const oldPrice = totalPrice;
+    // const newPrice = oldPrice + priceAddition;
+    // setTotalPrice(newPrice);
+    // updatePurchaseState(updatedIngredients);
+
+    dispatch({ type: ADD_INGREDIENT, payload: type });
   };
 
   const removeIngredientHandler = (type) => {
-    const oldCount = ingredients[type];
-    if (oldCount <= 0) {
-      return;
-    }
-    const updatedCount = oldCount - 1;
-    const updatedIngredients = {
-      ...ingredients,
-    };
-    updatedIngredients[type] = updatedCount;
-    setIngredients(updatedIngredients);
-    const priceDeduction = INGREDIENT_PRICES[type];
-    const oldPrice = totalPrice;
-    const newPrice = oldPrice - priceDeduction;
-    setTotalPrice(newPrice);
-    updatePurchaseState(updatedIngredients);
+  //   const oldCount = ingredients[type];
+  //   if (oldCount <= 0) {
+  //     return;
+  //   }
+  //   const updatedCount = oldCount - 1;
+  //   const updatedIngredients = {
+  //     ...ingredients,
+  //   };
+  //   updatedIngredients[type] = updatedCount;
+  //   setIngredients(updatedIngredients);
+  //   const priceDeduction = INGREDIENT_PRICES[type];
+  //   const oldPrice = totalPrice;
+  //   const newPrice = oldPrice - priceDeduction;
+  //   setTotalPrice(newPrice);
+  //   updatePurchaseState(updatedIngredients);
+
+  dispatch({ type: REMOVE_INGREDIENT, payload: type });
   };
 
   const updatePurchaseState = (ingredients) => {
@@ -76,7 +104,7 @@ function BurgerBuilder() {
       .reduce((sum, el) => {
         return sum + el;
       }, 0);
-    setPurchasable(sum > 0);
+    return (sum > 0);
   };
 
   const purchaseHandler = () => {
@@ -89,12 +117,12 @@ function BurgerBuilder() {
 
   const purchaseContinueHandler = () => {
     const queryParams = [];
-    for (let i in ingredients) {
+    for (let i in selector.ingredients) {
       queryParams.push(
-        encodeURIComponent(i) + "=" + encodeURIComponent(ingredients[i])
+        encodeURIComponent(i) + "=" + encodeURIComponent(selector.ingredients[i])
       );
     }
-    queryParams.push("price=" + totalPrice);
+    queryParams.push("price=" + selector.totalPrice);
     navigate({
       pathname: "/checkout",
       search: "?" + queryParams.join("&"),
@@ -102,7 +130,7 @@ function BurgerBuilder() {
   };
 
   const disabledInfo = {
-    ...ingredients,
+    ...selector.ingredients,
   };
   for (let key in disabledInfo) {
     disabledInfo[key] =
@@ -112,10 +140,10 @@ function BurgerBuilder() {
 
   let orderSummery = (
     <OrderSummery
-      ingredients={ingredients}
+      ingredients={selector.ingredients}
       purchaseContinued={purchaseContinueHandler}
       purchaseCanceled={purchasedCancelHandler}
-      price={totalPrice}
+      price={selector.totalPrice}
     />
   );
   if (loading) {
@@ -127,13 +155,13 @@ function BurgerBuilder() {
       <Modal show={purchaseMode} modalClosed={purchasedCancelHandler}>
         {orderSummery}
       </Modal>
-      <Burger ingredients={ingredients} />
+      <Burger ingredients={selector.ingredients} />
       <BuildControls
         ingredientAdded={addIngredientHandler}
         ingredientRemoved={removeIngredientHandler}
         disabled={disabledInfo}
-        purchasable={purchasable}
-        price={totalPrice}
+        purchasable={()=>updatePurchaseState(selector.ingredients)}
+        price={selector.totalPrice}
         ordered={purchaseHandler}
       />
     </Auxilary>
