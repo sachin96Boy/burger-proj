@@ -1,32 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import instance from "../../axios-orders";
 import Order from "../../components/order/Order";
 import Spinner from "../../components/UI/spinner/Spinner";
 import WithErrorHandler from "../../hoc/withErrorHandler/WithErrorHandler";
+import { orderFetchStart } from "../../store/actions/OrderActions";
 
 function Orders() {
-  const [order, setOrder] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const selector = useSelector((state) => {
+    return {
+      orders: state.order.orders,
+      loading: state.order.loading,
+    };
+  });
+
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    instance
-      .get("/orders.json")
-      .then((res) => {
-        const fetchedOrders = [];
-        for (let key in res.data) {
-          fetchedOrders.push({
-            ...res.data[key],
-            id: key,
-          });
-        }
-        setOrder(fetchedOrders);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setLoading(false);
-        console.log(err);
-      });
-  }, []);
-  let orders = order?.map((order) => (
+    dispatch(orderFetchStart());
+  }, [dispatch]);
+  let orders = selector.orders?.map((order) => (
     <Order
       key={order.id}
       ingredients={order.ingredients}
@@ -34,7 +27,7 @@ function Orders() {
     />
   ));
 
-  if (loading) {
+  if (selector.loading) {
     orders = <Spinner />;
   }
 

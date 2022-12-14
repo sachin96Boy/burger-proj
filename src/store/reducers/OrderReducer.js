@@ -31,8 +31,9 @@ const orderReducer = createReducer(initialState, (builder) => {
     .addCase(ORDER_PURCHASE_SUCCESS, (state, action) => {
       const newOrder = {
         ...action.payload.orderData,
-        id: action.payload.orderId,
+        id: action.payload.id,
       };
+
       return {
         ...state,
         loading: false,

@@ -41,6 +41,7 @@ function ContactData() {
       deliveryMethod: "fastest",
     };
     dispatch(orderPurchaseStart(order));
+    console.log(selector.loading);
   };
 
   let form = (

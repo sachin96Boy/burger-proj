@@ -15,6 +15,7 @@ import {
   removeIngredient,
   setIngredients,
 } from "../../store/actions/BurgerAction";
+import { orderPurchaseInit } from "../../store/actions/OrderActions";
 
 // global variables
 // const INGREDIENT_PRICES = {
@@ -114,19 +115,17 @@ function BurgerBuilder() {
   };
 
   const purchaseContinueHandler = () => {
-    const queryParams = [];
-    for (let i in selector.ingredients) {
-      queryParams.push(
-        encodeURIComponent(i) +
-          "=" +
-          encodeURIComponent(selector.ingredients[i])
-      );
-    }
-    queryParams.push("price=" + selector.totalPrice);
-    navigate({
-      pathname: "/checkout",
-      search: "?" + queryParams.join("&"),
-    });
+    // const queryParams = [];
+    // for (let i in selector.ingredients) {
+    //   queryParams.push(
+    //     encodeURIComponent(i) +
+    //       "=" +
+    //       encodeURIComponent(selector.ingredients[i])
+    //   );
+    // }
+    // queryParams.push("price=" + selector.totalPrice);
+    dispatch(orderPurchaseInit());
+    navigate("/checkout");
   };
 
   const disabledInfo = {
