@@ -10,13 +10,11 @@ import Spinner from "../../components/UI/spinner/Spinner";
 
 import Auxilary from "../../hoc/Auxilary";
 import WithErrorHandler from "../../hoc/withErrorHandler/WithErrorHandler";
-
 import {
-  ADD_INGREDIENT,
-  REMOVE_INGREDIENT,
-  SET_INGREDIENTS,
-  FETCH_INGREDIENTS_FAILED,
-} from "../../store/constants/BurgerConstants";
+  addIngredient,
+  removeIngredient,
+  setIngredients,
+} from "../../store/actions/BurgerAction";
 
 // global variables
 // const INGREDIENT_PRICES = {
@@ -36,7 +34,6 @@ function BurgerBuilder() {
   // const [totalPrice, setTotalPrice] = React.useState(4);
   // const [purchasable, setPurchasable] = React.useState(false);
   const [purchaseMode, setPurchaseMode] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
   const navigate = useNavigate();
 
   const selector = useSelector((state) => {
@@ -49,6 +46,10 @@ function BurgerBuilder() {
   console.log(selector);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setIngredients());
+  }, [dispatch]);
 
   const addIngredientHandler = (type) => {
     // const oldCount = ingredients[type];
@@ -68,7 +69,8 @@ function BurgerBuilder() {
     // setTotalPrice(newPrice);
     // updatePurchaseState(updatedIngredients);
 
-    dispatch({ type: ADD_INGREDIENT, payload: type });
+    // dispatch({ type: ADD_INGREDIENT, payload: type });
+    dispatch(addIngredient(type));
   };
 
   const removeIngredientHandler = (type) => {
@@ -88,7 +90,8 @@ function BurgerBuilder() {
     //   setTotalPrice(newPrice);
     //   updatePurchaseState(updatedIngredients);
 
-    dispatch({ type: REMOVE_INGREDIENT, payload: type });
+    // dispatch({ type: REMOVE_INGREDIENT, payload: type });
+    dispatch(removeIngredient(type));
   };
 
   const updatePurchaseState = (ingredients) => {
@@ -135,16 +138,17 @@ function BurgerBuilder() {
       0; /* This gives an boolean condition either true or false */
   }
 
-  let orderSummery = (
-    <OrderSummery
-      ingredients={selector.ingredients}
-      purchaseContinued={purchaseContinueHandler}
-      purchaseCanceled={purchasedCancelHandler}
-      price={selector.totalPrice}
-    />
-  );
-  if (loading) {
-    orderSummery = <Spinner />;
+  let orderSummery = <Spinner />;
+
+  if (selector.ingredients) {
+    orderSummery = (
+      <OrderSummery
+        ingredients={selector.ingredients}
+        purchaseCanceled={purchasedCancelHandler}
+        purchaseContinued={purchaseContinueHandler}
+        price={selector.totalPrice}
+      />
+    );
   }
 
   return (
@@ -152,21 +156,22 @@ function BurgerBuilder() {
       <Modal show={purchaseMode} modalClosed={purchasedCancelHandler}>
         {orderSummery}
       </Modal>
-      {selector.error ? (
-        <p>Ingredients can't be loaded</p>
-      ) : (
-        <>
+      {selector.ingredients ? (
+        <Auxilary>
           <Burger ingredients={selector.ingredients} />
           <BuildControls
             ingredientAdded={addIngredientHandler}
             ingredientRemoved={removeIngredientHandler}
             disabled={disabledInfo}
-            purchasable={() => updatePurchaseState(selector.ingredients)}
             price={selector.totalPrice}
+            purchasable={updatePurchaseState(selector.ingredients)}
             ordered={purchaseHandler}
           />
-        </>
+        </Auxilary>
+      ) : (
+        <Spinner />
       )}
+      {selector.error ? <p>Ingredients can't be loaded</p> : null}
     </Auxilary>
   );
 }

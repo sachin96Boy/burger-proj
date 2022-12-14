@@ -1,41 +1,52 @@
 import instance from "../../axios-orders";
 import {
-    ORDER_PURCHASE_INIT,
-    ORDER_PURCHASE_START,
-    ORDER_PURCHASE_SUCCESS,
-    ORDER_PURCHASE_FAIL,
-    ORDER_FETCH_START,
-    ORDER_FETCH_SUCCESS,
-    ORDER_FETCH_FAIL,
+  ORDER_PURCHASE_INIT,
+  ORDER_PURCHASE_START,
+  ORDER_PURCHASE_SUCCESS,
+  ORDER_PURCHASE_FAIL,
+  ORDER_FETCH_START,
+  ORDER_FETCH_SUCCESS,
+  ORDER_FETCH_FAIL,
 } from "../constants/OrderConstants";
 
 export const orderPurchaseInit = () => (dispatch) => {
-    dispatch({ type: ORDER_PURCHASE_INIT });
-}
+  dispatch({ type: ORDER_PURCHASE_INIT });
+};
 
-export const orderPurchaseStart = () => (dispatch) => {
-    instance.post("/orders.json").then((response) => {
-        dispatch({ type: ORDER_PURCHASE_START, payload: response.data });
-    }).catch((error) => {
-        dispatch({ type: ORDER_PURCHASE_FAIL, payload: error });
+export const orderPurchaseStart = (orderData) => (dispatch) => {
+  dispatch({ type: ORDER_PURCHASE_START });
+  instance
+    .post("/orders.json", orderData)
+    .then((response) => {
+      dispatch({
+        type: ORDER_PURCHASE_SUCCESS,
+        payload: { orderData, id: response.data.name },
+      });
+    })
+    .catch((error) => {
+      dispatch({ type: ORDER_PURCHASE_FAIL, payload: error });
     });
-}
-
-export const orderPurchaseSuccess = (orderId, orderData) => (dispatch) => {
-    dispatch({ type: ORDER_PURCHASE_SUCCESS, payload: { orderId, orderData } });
-}
-
-
+};
 
 export const orderFetchStart = () => (dispatch) => {
-    instance.get("/orders.json").then((response) => {
-        dispatch({ type: ORDER_FETCH_START, payload: response.data });
-    }).catch((error) => {
-        dispatch({ type: ORDER_FETCH_FAIL, payload: error });
+  dispatch({ type: ORDER_FETCH_START });
+  instance
+    .get("/orders.json")
+    .then((response) => {
+      const orders = [];
+      for (let key in response.data) {
+        orders.push({
+          ...response.data[key],
+          id: key,
+        });
+      }
+      dispatch(orderFetchSuccess(orders));
+    })
+    .catch((error) => {
+      dispatch({ type: ORDER_FETCH_FAIL, payload: error });
     });
-}
+};
 
 export const orderFetchSuccess = (orders) => (dispatch) => {
-    dispatch({ type: ORDER_FETCH_SUCCESS, payload: { orders } });
-}
-
+  dispatch({ type: ORDER_FETCH_SUCCESS, payload: { orders } });
+};

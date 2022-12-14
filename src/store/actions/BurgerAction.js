@@ -15,8 +15,8 @@ export const removeIngredient = (type) => (dispatch) => {
     dispatch({ type: REMOVE_INGREDIENT, payload: type });
 }
 
-export const setIngredients = (ingredients) => (dispatch) => {
-    instance.get("/ingredients.json").then((response) => {
+export const setIngredients = () => async (dispatch) => {
+    await instance.get("/ingredients.json").then((response) => {
         dispatch({ type: SET_INGREDIENTS, payload: response.data });
     }).catch((error) => {
         dispatch({ type: FETCH_INGREDIENTS_FAILED });

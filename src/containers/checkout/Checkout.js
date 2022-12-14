@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { redirect, Route, Routes, useNavigate } from "react-router-dom";
 import CheckoutSummery from "../../components/order/checkoutSummery/CheckoutSummery";
 import ContactData from "./contactdata/ContactData";
 
@@ -17,10 +16,9 @@ function Checkout() {
   const selector = useSelector((state) => {
     return {
       ingredients: state.burger.ingredients,
-      totalPrice: state.burger.totalPrice,
+      purchased: state.order.purchased,
     };
   });
-
 
   // useEffect(() => {
   //   const query = new URLSearchParams(window.location.search);
@@ -44,21 +42,29 @@ function Checkout() {
     navigate("/checkout/contact-data");
   };
 
+  let summary = redirect("/");
+  if (selector.ingredients) {
+    const purchasedRedirect = selector.purchased ? redirect("/") : null;
+    summary = (
+      <div>
+        {purchasedRedirect}
+        <CheckoutSummery
+          ingredients={selector.ingredients}
+          checkoutCanceled={checkoutCancledHandler}
+          checkoutContinued={checkoutContinuedHandler}
+        />
+        <Routes>
+          <Route path="contact-data" element={<ContactData />} />
+        </Routes>
+      </div>
+    );
+  }
+
   return (
     <div>
       <h1>Checkout</h1>
-      <CheckoutSummery
-        ingredients={selector.ingredients}
-        checkoutCanceled={checkoutCancledHandler}
-        checkoutContinued={checkoutContinuedHandler}
-        price={selector.totalPrice}
-      />
-      <Routes>
-        <Route
-          path="contact-data"
-          element={<ContactData ingredients={selector.ingredients} price={selector.totalPrice} />}
-        />
-      </Routes>
+
+      {summary}
     </div>
   );
 }

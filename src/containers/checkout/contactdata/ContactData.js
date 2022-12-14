@@ -1,25 +1,34 @@
-import instance from "../../../axios-orders";
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import Button from "../../../components/UI/Button/Button";
 import Spinner from "../../../components/UI/spinner/Spinner";
 import Input from "../../../components/UI/input/Input";
+import { useDispatch, useSelector } from "react-redux";
+import { orderPurchaseStart } from "../../../store/actions/OrderActions";
 
-function ContactData(props) {
+function ContactData() {
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [street, setStreet] = React.useState("");
   const [postalCode, setPostalCode] = React.useState("");
-  const [loading, setLoading] = React.useState(false);
 
-  const navigate = useNavigate();
+
+
+  const selector = useSelector((state)=> {
+    return {
+      ingredients: state.burger.ingredients,
+      price: state.burger.totalPrice,
+      loading: state.order.loading,
+    }
+  });
+
+  const dispatch = useDispatch();
 
   const orderHandler = (event) => {
     event.preventDefault();
-    setLoading(true);
+
     const order = {
-      ingredients: props.ingredients,
-      price: props.price,
+      ingredients: selector.ingredients,
+      price: selector.price,
       customer: {
         name: name,
         address: {
@@ -31,17 +40,7 @@ function ContactData(props) {
       },
       deliveryMethod: "fastest",
     };
-    instance
-      .post("/orders.json", order)
-      .then((response) => {
-        console.log(response);
-        setLoading(false);
-        navigate("/");
-      })
-      .catch((error) => {
-        setLoading(false);
-        console.log(error);
-      });
+    dispatch(orderPurchaseStart(order));
   };
 
   let form = (
@@ -100,7 +99,7 @@ function ContactData(props) {
     </form>
   );
 
-  if (loading) {
+  if (selector.loading) {
     form = <Spinner />;
   }
 
