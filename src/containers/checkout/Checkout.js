@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { redirect, Route, Routes, useNavigate, Navigate } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import CheckoutSummery from "../../components/order/checkoutSummery/CheckoutSummery";
 import Spinner from "../../components/UI/spinner/Spinner";
 import ContactData from "./contactdata/ContactData";
