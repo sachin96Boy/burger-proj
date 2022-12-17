@@ -6,6 +6,7 @@ export default function NavigationItems(props) {
     <ul className='m-0 p-0 flex flex-col items-center h-full lg:flex-row'>
         <NavigationItem link="/" exact>Burger builder</NavigationItem>
         <NavigationItem link="/orders">Orders</NavigationItem>
+        <NavigationItem link="/auth">Auth</NavigationItem>
     </ul>
   )
 }
