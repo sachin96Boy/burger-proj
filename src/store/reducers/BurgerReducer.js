@@ -10,6 +10,7 @@ const initialState = {
     ingredients: null,
     totalPrice: 4,
     error: false,
+    building: false,
 }
 
 const INGREDIENT_PRICES = {
@@ -61,15 +62,18 @@ const BurgerReducer = createReducer(initialState, (builder)=> {
         .addCase(ADD_INGREDIENT, (state, action) => {
             state.ingredients[action.payload] = state.ingredients[action.payload] + 1;
             state.totalPrice = state.totalPrice + INGREDIENT_PRICES[action.payload];
+            state.building = true;
         })
         .addCase(REMOVE_INGREDIENT, (state, action) => {
             state.ingredients[action.payload] = state.ingredients[action.payload] - 1;
             state.totalPrice = state.totalPrice - INGREDIENT_PRICES[action.payload];
+            state.building = true;
         })
         .addCase(SET_INGREDIENTS, (state, action) => {
             state.ingredients = action.payload;
             state.totalPrice = 4;
             state.error = false;
+            state.building = false;
 
         })
         .addCase(FETCH_INGREDIENTS_FAILED, (state, action) => {

@@ -23,7 +23,7 @@ function BuildControls(props) {
         />
       ))}
       <button onClick={props.ordered} disabled={!props.purchasable} className="bg-gray-700 text-white disabled:bg-red-900">
-        Order your burger now
+        {props.isAuth ? 'Order your burger now' : 'Sign up to Order'}
       </button>
     </div>
   );

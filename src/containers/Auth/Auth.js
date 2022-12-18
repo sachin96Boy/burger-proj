@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Button from "../../components/UI/Button/Button";
 import Input from "../../components/UI/input/Input";
 import { useDispatch, useSelector } from "react-redux";
-import { auth } from "../../store/actions/AuthAction";
+import { auth, setAuthRedirectPath } from "../../store/actions/AuthAction";
 import Spinner from "../../components/UI/spinner/Spinner";
+import { useNavigate } from "react-router-dom";
 
 function Auth() {
   const [email, setEmail] = React.useState("");
@@ -21,16 +22,32 @@ function Auth() {
   });
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const formSubmitHandler = (e) => {
     e.preventDefault();
 
     dispatch(auth(email, password, isSignup));
+
   };
 
   const switchAuthModeHandler = () => {
     setIsSignup(!isSignup);
   };
+
+  useEffect(()=>{
+    if(!selector.buildingBurger && selector.authRedirectPath !== "/"){
+      dispatch(setAuthRedirectPath("/"));
+    }
+  },[dispatch, selector.authRedirectPath, selector.buildingBurger]);
+
+  useEffect(() => {
+    if (selector.isAuthenticated) {
+      dispatch(setAuthRedirectPath(selector.authRedirectPath));
+      navigate(selector.authRedirectPath);
+    }
+  },[dispatch, navigate, selector.authRedirectPath, selector.isAuthenticated]);
+
   return (
     <div className="w-4/5 mx-5 text-center p-3 box-border border">
       {

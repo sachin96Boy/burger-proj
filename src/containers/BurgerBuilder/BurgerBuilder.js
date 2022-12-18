@@ -16,6 +16,7 @@ import {
   setIngredients,
 } from "../../store/actions/BurgerAction";
 import { orderPurchaseInit } from "../../store/actions/OrderActions";
+import { setAuthRedirectPath } from "../../store/actions/AuthAction";
 
 // global variables
 // const INGREDIENT_PRICES = {
@@ -42,9 +43,9 @@ function BurgerBuilder() {
       ingredients: state.burger.ingredients,
       totalPrice: state.burger.totalPrice,
       error: state.burger.error,
+      isAuthenticated: state.auth.token !== null,
     };
   });
-
 
   const dispatch = useDispatch();
 
@@ -107,7 +108,12 @@ function BurgerBuilder() {
   };
 
   const purchaseHandler = () => {
-    setPurchaseMode(true);
+    if (selector.isAuthenticated) {
+      setPurchaseMode(true);
+    }else{
+      dispatch(setAuthRedirectPath("/checkout"))
+      navigate("/auth");
+    }
   };
 
   const purchasedCancelHandler = () => {
@@ -163,6 +169,7 @@ function BurgerBuilder() {
             ingredientRemoved={removeIngredientHandler}
             disabled={disabledInfo}
             price={selector.totalPrice}
+            isAuth={selector.isAuthenticated}
             purchasable={updatePurchaseState(selector.ingredients)}
             ordered={purchaseHandler}
           />

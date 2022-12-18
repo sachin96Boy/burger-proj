@@ -4,6 +4,7 @@ import {
   AUTH_SUCCESS,
   AUTH_FAIL,
   AUTH_LOGOUT,
+  SET_AUTH_REDIRECT_PATH,
 } from "../constants/AuthConstants";
 
 const initialState = {
@@ -11,6 +12,7 @@ const initialState = {
   userId: null,
   error: null,
   loading: false,
+  authRedirectPath: "/",
 };
 
 const authReducer = createReducer(initialState, (builder) => {
@@ -44,6 +46,15 @@ const authReducer = createReducer(initialState, (builder) => {
         token: null,
         userId: null,
       };
+    })
+    .addCase(SET_AUTH_REDIRECT_PATH, (state, action) => {
+        return {
+            ...state,
+            authRedirectPath: action.payload,
+        };
+    })
+    .addDefaultCase((state, _) => {
+      return state;
     });
 });
 
