@@ -11,14 +11,15 @@ function Orders() {
     return {
       orders: state.order.orders,
       loading: state.order.loading,
+      token: state.auth.token,
     };
   });
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(orderFetchStart());
-  }, [dispatch]);
+    dispatch(orderFetchStart(selector.token));
+  }, [dispatch, selector.token]);
   let orders = selector.orders?.map((order) => (
     <Order
       key={order.id}

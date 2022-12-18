@@ -13,10 +13,10 @@ export const orderPurchaseInit = () => (dispatch) => {
   dispatch({ type: ORDER_PURCHASE_INIT });
 };
 
-export const orderPurchaseStart = (orderData) => (dispatch) => {
+export const orderPurchaseStart = (orderData, authToken) => (dispatch) => {
   dispatch({ type: ORDER_PURCHASE_START });
   instance
-    .post("/orders.json", orderData)
+    .post(`/orders.json?auth=${authToken}`, orderData)
     .then((response) => {
       dispatch({
         type: ORDER_PURCHASE_SUCCESS,
@@ -28,10 +28,10 @@ export const orderPurchaseStart = (orderData) => (dispatch) => {
     });
 };
 
-export const orderFetchStart = () => (dispatch) => {
+export const orderFetchStart = (authToken) => (dispatch) => {
   dispatch({ type: ORDER_FETCH_START });
   instance
-    .get("/orders.json")
+    .get(`/orders.json?auth=${authToken}`)
     .then((response) => {
       const orders = [];
       for (let key in response.data) {

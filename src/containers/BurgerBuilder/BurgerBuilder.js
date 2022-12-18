@@ -44,7 +44,7 @@ function BurgerBuilder() {
       error: state.burger.error,
     };
   });
-  console.log(selector);
+
 
   const dispatch = useDispatch();
 

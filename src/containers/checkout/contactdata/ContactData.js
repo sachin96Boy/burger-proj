@@ -18,6 +18,7 @@ function ContactData() {
       ingredients: state.burger.ingredients,
       price: state.burger.totalPrice,
       loading: state.order.loading,
+      token: state.auth.token,
     }
   });
 
@@ -40,7 +41,7 @@ function ContactData() {
       },
       deliveryMethod: "fastest",
     };
-    dispatch(orderPurchaseStart(order));
+    dispatch(orderPurchaseStart(order, selector.token));
     console.log(selector.loading);
   };
 
