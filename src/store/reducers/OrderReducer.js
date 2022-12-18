@@ -41,13 +41,13 @@ const orderReducer = createReducer(initialState, (builder) => {
         orders: state.orders.concat(newOrder),
       };
     })
-    .addCase(ORDER_PURCHASE_FAIL, (state, action) => {
+    .addCase(ORDER_PURCHASE_FAIL, (state, _) => {
       return {
         ...state,
         loading: false,
       };
     })
-    .addCase(ORDER_FETCH_START, (state, action) => {
+    .addCase(ORDER_FETCH_START, (state, _) => {
       return {
         ...state,
         loading: true,
@@ -60,7 +60,7 @@ const orderReducer = createReducer(initialState, (builder) => {
         loading: false,
       };
     })
-    .addCase(ORDER_FETCH_FAIL, (state, action) => {
+    .addCase(ORDER_FETCH_FAIL, (state, _) => {
       return {
         ...state,
         loading: false,

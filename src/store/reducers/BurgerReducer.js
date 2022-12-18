@@ -76,7 +76,7 @@ const BurgerReducer = createReducer(initialState, (builder)=> {
             state.building = false;
 
         })
-        .addCase(FETCH_INGREDIENTS_FAILED, (state, action) => {
+        .addCase(FETCH_INGREDIENTS_FAILED, (state, _) => {
             state.ingredients = null;
             state.totalPrice = 4;
             state.error = true;
