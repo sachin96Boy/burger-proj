@@ -15,7 +15,7 @@ function TopBar(props) {
       </div>
       <div className="hidden lg:flex">
         <nav className="h-full">
-          <NavigationItems />
+          <NavigationItems isAuthenticated={props.isAuthenticated}/>
         </nav>
       </div>
     </header>
