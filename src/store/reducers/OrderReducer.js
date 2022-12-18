@@ -65,6 +65,9 @@ const orderReducer = createReducer(initialState, (builder) => {
         ...state,
         loading: false,
       };
+    })
+    .addDefaultCase((state, _) => {
+      return state;
     });
 });
 

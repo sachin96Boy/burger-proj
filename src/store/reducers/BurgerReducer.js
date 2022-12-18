@@ -81,6 +81,9 @@ const BurgerReducer = createReducer(initialState, (builder)=> {
             state.totalPrice = 4;
             state.error = true;
         })
+        .addDefaultCase((state, _) => {
+            return state;
+        })
 })
 
 export default BurgerReducer;
